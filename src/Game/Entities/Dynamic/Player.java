@@ -14,7 +14,8 @@ public class Player {
     public int lenght;
     public boolean justAte;
     private Handler handler;
-
+    public boolean debug=false; //Toggle to prevent adding apples while adding a piece of tail
+    
     public int xCoord;
     public int yCoord;
 
@@ -34,6 +35,11 @@ public class Player {
     }
 
     public void tick(){
+    	if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_N)) {
+    		debug=true;
+    		Eat();
+    		
+    	}
         moveCounter++;
         if(moveCounter>=5) {
             checkCollisionAndMove();
@@ -89,6 +95,7 @@ public class Player {
 
 
         if(handler.getWorld().appleLocation[xCoord][yCoord]){
+        	debug=false;										//turn off the toggle before the Eat method
             Eat();
         }
 
@@ -104,7 +111,7 @@ public class Player {
         Random r = new Random();
         for (int i = 0; i < handler.getWorld().GridWidthHeightPixelCount; i++) {
             for (int j = 0; j < handler.getWorld().GridWidthHeightPixelCount; j++) {
-                g.setColor(Color.WHITE);
+                g.setColor(Color.GREEN);													//sets color for snake and apple
 
                 if(playeLocation[i][j]||handler.getWorld().appleLocation[i][j]){
                     g.fillRect((i*handler.getWorld().GridPixelsize),
@@ -122,8 +129,11 @@ public class Player {
     public void Eat(){
         lenght++;
         Tail tail= null;
+        if(debug==false) {
         handler.getWorld().appleLocation[xCoord][yCoord]=false;
         handler.getWorld().appleOnBoard=false;
+       
+        }
         switch (direction){
             case "Left":
                 if( handler.getWorld().body.isEmpty()){

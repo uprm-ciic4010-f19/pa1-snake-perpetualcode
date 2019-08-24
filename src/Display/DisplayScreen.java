@@ -41,19 +41,24 @@ public class DisplayScreen {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        
         canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(width, height));
         canvas.setMaximumSize(new Dimension(width, height));
         canvas.setMinimumSize(new Dimension(width, height));
         canvas.setFocusable(false);
-        canvas.setBackground(Color.black);
+        canvas.setBackground(new Color(128,0,128));			//In-game background color
 
         frame.add(canvas);
         frame.pack();
     }
 
-    public Canvas getCanvas(){
+    private Color Color(int i, int j, int k) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Canvas getCanvas(){
         return canvas;
     }
 

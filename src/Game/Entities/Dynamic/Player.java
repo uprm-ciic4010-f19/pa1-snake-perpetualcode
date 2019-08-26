@@ -14,7 +14,9 @@ public class Player {
     public int lenght;
     public boolean justAte;
     private Handler handler;
-    public boolean debug=false; //Toggle to prevent adding apples while adding a piece of tail
+    
+    public boolean debug=false; //Toggle to prevent adding apples while adding a piece of tail.
+    public int speed=5;
     
     public int xCoord;
     public int yCoord;
@@ -33,15 +35,19 @@ public class Player {
         lenght= 1;
 
     }
-
+    
     public void tick(){
     	if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_N)) {
     		debug=true;
-    		Eat();
-    		
+    		Eat();	
     	}
+    	if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_MINUS))		//Increases snake speed.
+    		speed++;
+    	if( (handler.getKeyManager().keyJustPressed(KeyEvent.VK_PLUS) || handler.getKeyManager().keyJustPressed(KeyEvent.VK_9)) && speed>=0) //Decreases snake speed. Max speed when speed is 0.
+    		speed--;																														//Had to use another key instead of "+" because it wasn't registering it
+    		
         moveCounter++;
-        if(moveCounter>=5) {
+        if(moveCounter>=speed) {
             checkCollisionAndMove();
             moveCounter=0;
         }
@@ -95,7 +101,7 @@ public class Player {
 
 
         if(handler.getWorld().appleLocation[xCoord][yCoord]){
-        	debug=false;										//turn off the toggle before the Eat method
+        	debug=false;										//Turns off the toggle before the Eat method.
             Eat();
         }
 
@@ -111,7 +117,7 @@ public class Player {
         Random r = new Random();
         for (int i = 0; i < handler.getWorld().GridWidthHeightPixelCount; i++) {
             for (int j = 0; j < handler.getWorld().GridWidthHeightPixelCount; j++) {
-                g.setColor(Color.GREEN);													//sets color for snake and apple
+                g.setColor(Color.GREEN);													//Sets color for snake and apple.
 
                 if(playeLocation[i][j]||handler.getWorld().appleLocation[i][j]){
                     g.fillRect((i*handler.getWorld().GridPixelsize),

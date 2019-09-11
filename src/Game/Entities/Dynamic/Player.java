@@ -4,6 +4,7 @@ import Main.Handler;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.math.BigDecimal;
 import java.util.Random;
 
 /**
@@ -17,6 +18,8 @@ public class Player {
     
     public boolean debug=false; //Toggle to prevent adding apples while adding a piece of tail.
     public int speed=5;
+    public double score;
+    public int scoreTimer; 
     
     public int xCoord;
     public int yCoord;
@@ -32,8 +35,9 @@ public class Player {
         moveCounter = 0;
         direction= "Right";
         justAte = false;
-        lenght= 1;
-
+        lenght = 1;
+        score = 0;
+        scoreTimer=0;
     }
     
     public void tick(){
@@ -51,6 +55,7 @@ public class Player {
             checkCollisionAndMove();
             moveCounter=0;
         }
+        scoreTimer++;
         if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_UP) && direction!="Down"){
             direction="Up";
         }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_DOWN) && direction!="Up"){
@@ -133,18 +138,26 @@ public class Player {
 
             }
         }
+        if(scoreTimer<150)
+        	g.setColor(Color.BLACK);
+        else 
+        	g.setColor(new Color(128,0,128));
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+        g.drawString(BigDecimal.valueOf(score).setScale(2, BigDecimal.ROUND_CEILING).toString(), 0, 25);
 
 
     }
 
     public void Eat(){
     	handler.getGame().Sounds();
+    	score+=Math.sqrt(2*score+1);
+    	scoreTimer=0;
+    	speed--;
         lenght++;
         Tail tail= null;
-        if(debug==false) {
-        handler.getWorld().appleLocation[xCoord][yCoord]=false;
-        handler.getWorld().appleOnBoard=false;
-       
+       handler.getWorld().appleLocation[xCoord][yCoord]=false;
+        if(debug==false) {										//If statement prevents changing apple's location
+        	handler.getWorld().appleOnBoard=false;
         }
         switch (direction){
             case "Left":

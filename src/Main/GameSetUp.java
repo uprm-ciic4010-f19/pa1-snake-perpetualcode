@@ -190,7 +190,7 @@ public class GameSetUp implements Runnable {
     public void Sounds() {
     	try {
 
-        audioFile = getClass().getResourceAsStream("/music/Score.wav");
+        audioFile = getClass().getResourceAsStream("/music/Score.wav");	//Sound from http://www.flashkit.com/soundfx/Electronic/Arcade/SineySpa-Mark_E_B-7844/index.php
         audioStream = AudioSystem.getAudioInputStream(audioFile);
         format = audioStream.getFormat();
         info = new DataLine.Info(Clip.class, format);

@@ -187,6 +187,25 @@ public class GameSetUp implements Runnable {
         bs.show();
         g.dispose();
     }
+    public void Sounds() {
+    	try {
+
+        audioFile = getClass().getResourceAsStream("/music/Score.wav");
+        audioStream = AudioSystem.getAudioInputStream(audioFile);
+        format = audioStream.getFormat();
+        info = new DataLine.Info(Clip.class, format);
+        audioClip = (Clip) AudioSystem.getLine(info);
+        audioClip.open(audioStream);
+        audioClip.loop(0);
+
+    } catch (UnsupportedAudioFileException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    } catch (LineUnavailableException e) {
+        e.printStackTrace();
+    }
+   }
 
     public synchronized void stop(){
         if(!running)

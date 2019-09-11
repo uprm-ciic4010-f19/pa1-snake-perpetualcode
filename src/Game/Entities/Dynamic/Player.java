@@ -138,6 +138,7 @@ public class Player {
     }
 
     public void Eat(){
+    	handler.getGame().Sounds();
         lenght++;
         Tail tail= null;
         if(debug==false) {

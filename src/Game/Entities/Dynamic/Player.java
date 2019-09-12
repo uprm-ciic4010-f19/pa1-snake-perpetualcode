@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.util.Random;
 
+import Game.Entities.Static.Apple;
 import Game.GameStates.State;
 
 /**
@@ -25,6 +26,8 @@ public class Player {
     
     public int xCoord;
     public int yCoord;
+    public int steps;
+    public Apple Apple;
 
     public int moveCounter;
 
@@ -40,9 +43,13 @@ public class Player {
         lenght = 1;
         score = 0;
         scoreTimer=0;
+       
     }
     
     public void tick(){
+    	
+    	
+    	
     	if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_N)) {
     		debug=true;
     		Eat();	
@@ -54,6 +61,8 @@ public class Player {
     		
         moveCounter++;
         if(moveCounter>=speed) {
+        	steps++;
+        	//Apple.isGood(int score, int snakeTail, int steps, Graphics g);
             checkCollisionAndMove();
             moveCounter=0;
         }
@@ -133,7 +142,7 @@ public class Player {
             for (int j = 0; j < handler.getWorld().GridWidthHeightPixelCount; j++) {
                 if(handler.getWorld().appleLocation[i][j]){							//Sets apple color.
                 	//g.setColor(Color.BLACK); 		For when the bad apple is implemented
-                	g.setColor(Color.RED);						
+         //       	Apple.isGood(score, snakeTail, steps, g);						
                 
                 }
                 if(handler.getWorld().playerLocation[i][j])
@@ -147,13 +156,12 @@ public class Player {
 
             }
         }
-        if(scoreTimer<150)
-        	g.setColor(Color.BLACK);
-        else 
-        	g.setColor(new Color(128,0,128));
-        g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-        g.drawString(BigDecimal.valueOf(score).setScale(2, BigDecimal.ROUND_CEILING).toString(), 0, 25);
-
+      
+        	
+        	
+       
+    
+       
 
     }
 
@@ -164,6 +172,11 @@ public class Player {
     	speed--;
         lenght++;
         Tail tail= null;
+        
+        justAte = true;
+        	
+        
+        
        handler.getWorld().appleLocation[xCoord][yCoord]=false;
         if(debug==false) {										//If statement prevents changing apple's location
         	handler.getWorld().appleOnBoard=false;

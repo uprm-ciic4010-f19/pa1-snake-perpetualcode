@@ -27,7 +27,7 @@ public class Player {
     public int xCoord;
     public int yCoord;
     public int steps;
-    public Apple Apple;
+    public Apple apple;
 
     public int moveCounter;
 
@@ -48,7 +48,7 @@ public class Player {
     
     public void tick(){
     	
-    	
+     //	Apple.isGood(score, steps);			
     	
     	if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_N)) {
     		debug=true;
@@ -142,7 +142,7 @@ public class Player {
             for (int j = 0; j < handler.getWorld().GridWidthHeightPixelCount; j++) {
                 if(handler.getWorld().appleLocation[i][j]){							//Sets apple color.
                 	//g.setColor(Color.BLACK); 		For when the bad apple is implemented
-         //       	Apple.isGood(score, snakeTail, steps, g);						
+             		//	apple.isGood();
                 
                 }
                 if(handler.getWorld().playerLocation[i][j])

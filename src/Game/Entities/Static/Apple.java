@@ -17,7 +17,7 @@ public class Apple {
 
 	public int xCoord;
 	public int yCoord;
-	public Color AppleCC;
+	public Color AppleCC = Color.BLACK;
 
 	public Apple(Handler handler,int x, int y){
 		this.handler=handler;
@@ -28,17 +28,23 @@ public class Apple {
 
 
 
-	public void isGood(int score, int snakeTail, int steps, Graphics g) {
+	public void isGood (){
 
+
+	}
+	public void render (Graphics g) {
+		
 		if(handler.getWorld().player.steps<200)
 			AppleCC = Color.BLACK;
 		else { 
 			AppleCC = Color.RED;
 			if(handler.getWorld().player.justAte) {
-				steps = 0;
+				handler.getWorld().player.steps = 0;
+				handler.getWorld().playerLocation[handler.getWorld().body.getLast().x][handler.getWorld().body.getLast().y] = false;
+				handler.getWorld().body.removeLast();
 			}
-	}
-	
+		}
+		
 		g.setColor(AppleCC);
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
 		g.drawString(BigDecimal.valueOf(handler.getWorld().player.score).setScale(2, BigDecimal.ROUND_CEILING).toString(), 0, 25);

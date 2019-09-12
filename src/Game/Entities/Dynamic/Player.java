@@ -7,6 +7,8 @@ import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.util.Random;
 
+import Game.GameStates.State;
+
 /**
  * Created by AlexVR on 7/2/2018.
  */
@@ -114,6 +116,13 @@ public class Player {
             handler.getWorld().playerLocation[handler.getWorld().body.getLast().x][handler.getWorld().body.getLast().y] = false;
             handler.getWorld().body.removeLast();
             handler.getWorld().body.addFirst(new Tail(x, y,handler));
+        }
+        for (int index = 0; index < handler.getWorld().body.size() ; index++) {
+
+        	Tail snakeTail = handler.getWorld().body.get(index);
+
+        	if ( handler.getWorld().player.xCoord == snakeTail.x && handler.getWorld().player.yCoord == snakeTail.y)
+        		State.setState(handler.getGame().GameOverState);
         }
 
     }
@@ -271,6 +280,8 @@ public class Player {
 
             }
         }
+        
+      
     }
 
     public boolean isJustAte() {

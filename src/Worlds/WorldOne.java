@@ -49,7 +49,7 @@ public class WorldOne extends WorldBase{
     public void render(Graphics g){
         super.render(g);
         player.render(g,playerLocation);
-        handler.getWorld().apple.render(g);
+        handler.getWorld().apple.isGood(g);
     }
 
 }

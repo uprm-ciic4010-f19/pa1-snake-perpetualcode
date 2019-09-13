@@ -133,6 +133,8 @@ public class Player {
         	if ( handler.getWorld().player.xCoord == snakeTail.x && handler.getWorld().player.yCoord == snakeTail.y)
         		State.setState(handler.getGame().GameOverState);
         }
+        
+       
 
     }
 

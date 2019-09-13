@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.math.BigDecimal;
 
 import Game.Entities.Dynamic.Player;
+import Game.GameStates.State;
 import Main.Handler;
 
 /**
@@ -17,7 +18,8 @@ public class Apple {
 
 	public int xCoord;
 	public int yCoord;
-	public Color AppleCC = Color.BLACK;
+	public Color AppleCC = Color.RED;
+	public Color ScoreSS = Color.BLACK;
 
 	public Apple(Handler handler,int x, int y){
 		this.handler=handler;
@@ -28,32 +30,33 @@ public class Apple {
 
 
 
-	public void isGood (){
+	public void isGood (Graphics g){
 
+		g.setColor(ScoreSS);
+		g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+		g.drawString(BigDecimal.valueOf(handler.getWorld().player.score).setScale(2, BigDecimal.ROUND_CEILING).toString(), 0, 25);
 
-	}
-	public void render (Graphics g) {
 		
-		if(handler.getWorld().player.steps<200)
-			AppleCC = Color.BLACK;
-		else { 
-			AppleCC = Color.RED;
+
+		if(handler.getWorld().player.steps>400) {
+			AppleCC = Color.YELLOW;
+			ScoreSS = Color.RED;
+			g.drawString("Danger",handler.getWidth()/2,25);
+
 			if(handler.getWorld().player.justAte) {
 				handler.getWorld().player.steps = 0;
 				handler.getWorld().playerLocation[handler.getWorld().body.getLast().x][handler.getWorld().body.getLast().y] = false;
 				handler.getWorld().body.removeLast();
+				handler.getWorld().player.score-=Math.sqrt(2*handler.getWorld().player.score+1);
+
+				if(handler.getWorld().player.score<0)
+					State.setState(handler.getGame().GameOverState);
+
+				if(handler.getWorld().body.isEmpty())  //Checks if player loses all body after eating. If yes, is GameOver.
+					State.setState(handler.getGame().GameOverState);
 			}
 		}
-		
-		g.setColor(AppleCC);
-		g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-		g.drawString(BigDecimal.valueOf(handler.getWorld().player.score).setScale(2, BigDecimal.ROUND_CEILING).toString(), 0, 25);
-		g.drawString("Danger",handler.getWidth()/2,25);
-
 	}
-
-
-
 }
 
 

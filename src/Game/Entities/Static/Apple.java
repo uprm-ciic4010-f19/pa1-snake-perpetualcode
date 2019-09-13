@@ -31,18 +31,28 @@ public class Apple {
 
 
 	public void isGood (Graphics g){
-
 		g.setColor(ScoreSS);
+
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
 		g.drawString(BigDecimal.valueOf(handler.getWorld().player.score).setScale(2, BigDecimal.ROUND_CEILING).toString(), 0, 25);
+		g.drawString("Danger",handler.getWidth()/2,25);
 
-		
-
+		for (int i = 0; i < handler.getWorld().GridWidthHeightPixelCount; i++) {
+			for (int j = 0; j < handler.getWorld().GridWidthHeightPixelCount; j++) {
+				if(handler.getWorld().appleLocation[i][j]) 				
+					g.setColor(AppleCC);
+				if(handler.getWorld().appleLocation[i][j]){
+					g.fillRect((i*handler.getWorld().GridPixelsize),
+							(j*handler.getWorld().GridPixelsize),
+							handler.getWorld().GridPixelsize,
+							handler.getWorld().GridPixelsize);
+				}
+			}
+		}
 		if(handler.getWorld().player.steps>400) {
 			AppleCC = Color.YELLOW;
 			ScoreSS = Color.RED;
-			g.drawString("Danger",handler.getWidth()/2,25);
-
+			g.setColor(ScoreSS);
 			if(handler.getWorld().player.justAte) {
 				handler.getWorld().player.steps = 0;
 				handler.getWorld().playerLocation[handler.getWorld().body.getLast().x][handler.getWorld().body.getLast().y] = false;
@@ -55,7 +65,14 @@ public class Apple {
 				if(handler.getWorld().body.isEmpty())  //Checks if player loses all body after eating. If yes, is GameOver.
 					State.setState(handler.getGame().GameOverState);
 			}
+
 		}
+		else
+		{
+			AppleCC = Color.RED;
+			ScoreSS = Color.BLACK;
+		}
+		handler.getWorld().player.justAte=false;
 	}
 }
 
